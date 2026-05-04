@@ -1,11 +1,278 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { Image } from 'astro:assets';
+import heroImg from '../assets/images/hero.jpg';
+import ceremonyImg from '../assets/images/ceremony.jpg';
+import receptionImg from '../assets/images/reception.jpg';
 ---
 
 <Layout>
-	<Welcome />
+  <!-- ============================================ -->
+  <!-- HERO                                         -->
+  <!-- ============================================ -->
+  <section class="hero" id="hero" aria-label="Bienvenida">
+    <div class="hero__media" data-parallax>
+      <Image
+        src={heroImg}
+        alt="Fran y Gema"
+        widths={[640, 960, 1200, 1920]}
+        sizes="100vw"
+        loading="eager"
+        class="hero__image"
+      />
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__bg-monogram" aria-hidden="true">F&amp;G</div>
+    <div class="hero__content">
+      <p class="hero__pretitle" data-reveal="up">Nos casamos</p>
+      <h1 class="hero__names" data-reveal="text">
+        <span class="text-reveal__inner">Fran <span class="hero__ampersand">&amp;</span> Gema</span>
+      </h1>
+      <p class="hero__date" data-reveal="up" data-delay="0.3">
+        19 de septiembre de 2026
+      </p>
+      <p class="hero__location" data-reveal="up" data-delay="0.45">
+        Córdoba
+      </p>
+      <span class="gold-line hero__line" data-reveal="line" data-delay="0.6"></span>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span class="hero__scroll-hint-text">Scroll</span>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- WELCOME / QUOTE                              -->
+  <!-- ============================================ -->
+  <section class="section welcome" id="bienvenida" aria-label="Bienvenida">
+    <div class="float-decor float-decor--circle-1" data-float></div>
+    <div class="welcome__inner">
+      <span class="welcome__quote-mark" aria-hidden="true" data-reveal="up">"</span>
+      <blockquote class="welcome__quote" data-reveal="text">
+        <span class="text-reveal__inner">El amor no tiene cura, pero es la única cura para todos los males.</span>
+      </blockquote>
+      <cite class="welcome__author" data-reveal="up">— Leonardo da Vinci</cite>
+      <div class="welcome__divider" data-reveal="line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- EL DÍA — Vertical Timeline                   -->
+  <!-- ============================================ -->
+  <section class="section dia" id="dia" aria-labelledby="dia-title">
+    <div class="dia__texture" aria-hidden="true"></div>
+    <div class="float-decor float-decor--line-1" data-float></div>
+    <div class="dia__inner">
+      <div class="dia__header">
+        <p class="dia__label" data-reveal="up">El Gran Día</p>
+        <h2 class="dia__title" id="dia-title" data-reveal="text">
+          <span class="text-reveal__inner">19 de septiembre</span>
+        </h2>
+        <p class="dia__subtitle" data-reveal="up">
+          Te esperamos en Córdoba para celebrar juntos este momento tan especial.
+        </p>
+      </div>
+
+      <div class="dia__timeline">
+        <!-- Ceremony — Left -->
+        <div class="dia__event dia__event--left" data-reveal="up">
+          <span class="dia__event-number" aria-hidden="true">01</span>
+          <div class="dia__event-content">
+            <div class="dia__event-meta">
+              <span class="dia__event-time">12:00</span>
+              <span class="dia__event-ampm">h</span>
+            </div>
+            <h3 class="dia__event-name" data-reveal="text">
+              <span class="text-reveal__inner">La Ceremonia</span>
+            </h3>
+            <p class="dia__event-place">Iglesia de Nuestra Señora de Gracia</p>
+            <p class="dia__event-address">Plaza del Cristo de Gracia, Córdoba</p>
+            <a
+              href="https://maps.google.com/?q=Iglesia+de+Nuestra+Señora+de+Gracia+Plaza+Cristo+de+Gracia+Cordoba"
+              class="link-underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver ubicación <span class="arrow">→</span>
+            </a>
+          </div>
+          <div class="dia__event-media">
+            <Image
+              src={ceremonyImg}
+              alt="Iglesia de Nuestra Señora de Gracia"
+              widths={[400, 600, 800]}
+              sizes="(min-width: 768px) 35vw, 80vw"
+              class="dia__event-img"
+            />
+          </div>
+        </div>
+
+        <!-- Connector -->
+        <div class="dia__connector" aria-hidden="true">
+          <span class="dia__line"></span>
+          <span class="dia__dot">
+            <span class="dia__dot-ring"></span>
+          </span>
+          <span class="dia__line"></span>
+        </div>
+
+        <!-- Reception — Right -->
+        <div class="dia__event dia__event--right" data-reveal="up">
+          <span class="dia__event-number" aria-hidden="true">02</span>
+          <div class="dia__event-media">
+            <Image
+              src={receptionImg}
+              alt="Crisol Jardines de Córdoba"
+              widths={[400, 600, 800]}
+              sizes="(min-width: 768px) 35vw, 80vw"
+              class="dia__event-img"
+            />
+          </div>
+          <div class="dia__event-content">
+            <div class="dia__event-meta">
+              <span class="dia__event-time">14:30</span>
+              <span class="dia__event-ampm">h</span>
+            </div>
+            <h3 class="dia__event-name" data-reveal="text">
+              <span class="text-reveal__inner">El Convite</span>
+            </h3>
+            <p class="dia__event-place">Crisol Jardines de Córdoba</p>
+            <p class="dia__event-address">Paseo de la Victoria, s/n, Córdoba</p>
+            <a
+              href="https://maps.google.com/?q=Crisol+Jardines+de+Cordoba+Paseo+de+la+Victoria+Cordoba"
+              class="link-underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver ubicación <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DETALLES                                     -->
+  <!-- ============================================ -->
+  <section class="section detalles" id="detalles" aria-labelledby="detalles-title">
+    <div class="float-decor float-decor--line-2" data-float></div>
+    <div class="detalles__inner">
+      <div class="detalles__header">
+        <p class="detalles__label" data-reveal="up">Una noche para recordar</p>
+        <h2 class="detalles__title" id="detalles-title" data-reveal="text">
+          <span class="text-reveal__inner">Todo lo que necesitas saber</span>
+        </h2>
+        <p class="detalles__subtitle" data-reveal="up">
+          Queremos que disfrutes al máximo de este día tan especial.
+        </p>
+      </div>
+
+      <div class="detalles__grid">
+        <div class="detalles__item" data-reveal="up">
+          <div class="detalles__item-icon">&ldquo;</div>
+          <p class="detalles__item-title">Vestimenta</p>
+          <p class="detalles__item-text">
+            Etiqueta formal. Evita el color blanco y tonos muy claros. Opta por colores vivos y elegantes.
+          </p>
+        </div>
+        <div class="detalles__item" data-reveal="up">
+          <div class="detalles__item-icon">&infin;</div>
+          <p class="detalles__item-title">Regalo</p>
+          <p class="detalles__item-text">
+            Tu presencia es el mejor regalo. Si deseas hacernos un detalle, agradecemos que sea en sobre.
+          </p>
+        </div>
+        <div class="detalles__item" data-reveal="up">
+          <div class="detalles__item-icon">&sect;</div>
+          <p class="detalles__item-title">Confirmación</p>
+          <p class="detalles__item-text">
+            Confirma tu asistencia antes del 1 de agosto. Escríbenos por WhatsApp a cualquiera de nosotros.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- CONFIRMA — Invitation Card                   -->
+  <!-- ============================================ -->
+  <section class="section confirma" id="confirma" aria-labelledby="confirma-title">
+    <div class="float-decor float-decor--ring-1" data-float></div>
+    <div class="confirma__inner">
+      <div class="confirma__card" data-reveal="up">
+        <span class="confirma__card-corner--bl" aria-hidden="true"></span>
+        <span class="confirma__card-corner--br" aria-hidden="true"></span>
+        <span class="confirma__card-frame" aria-hidden="true"></span>
+        <span class="confirma__deco-circle" aria-hidden="true"></span>
+        <span class="confirma__deco-circle--2" aria-hidden="true"></span>
+
+        <p class="confirma__label" data-reveal="up">Reserva tu plaza</p>
+        <h2 class="confirma__title" id="confirma-title" data-reveal="text">
+          <span class="text-reveal__inner">Confírmanos<br />tu asistencia</span>
+        </h2>
+        <p class="confirma__body" data-reveal="up">
+          Escríbenos por WhatsApp con la mayor brevedad posible.
+        </p>
+
+        <div class="confirma__details" data-reveal="up">
+          <div class="confirma__detail">
+            <span class="confirma__detail-icon">1</span>
+            <span class="confirma__detail-text">Confirma si asistirás a la celebración</span>
+          </div>
+          <div class="confirma__detail">
+            <span class="confirma__detail-icon">2</span>
+            <span class="confirma__detail-text">Indica si tienes alguna intolerancia o alergia alimentaria</span>
+          </div>
+          <div class="confirma__detail">
+            <span class="confirma__detail-icon">3</span>
+            <span class="confirma__detail-text">Dinos si necesitarás alojamiento</span>
+          </div>
+        </div>
+
+        <div class="confirma__contacts" data-reveal="up">
+          <div class="confirma__contact">
+            <p class="confirma__contact-name">Fran</p>
+            <p class="confirma__contact-phone">+34 634 99 11 48</p>
+          </div>
+          <div class="confirma__contact">
+            <p class="confirma__contact-name">Gema</p>
+            <p class="confirma__contact-phone">+34 653 99 74 15</p>
+          </div>
+        </div>
+
+        <div class="confirma__actions" data-reveal="up">
+          <a
+            href="https://wa.me/34634991148"
+            class="btn-gold"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp Fran
+          </a>
+          <a
+            href="https://wa.me/34653997415"
+            class="btn-gold"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp Gema
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FOOTER                                       -->
+  <!-- ============================================ -->
+  <footer class="footer" role="contentinfo">
+    <span class="gold-line footer__line" data-reveal="line"></span>
+    <p class="footer__names" data-reveal="up">Fran &amp; Gema</p>
+    <p class="footer__date" data-reveal="up">19 de septiembre de 2026 &middot; Córdoba</p>
+    <p class="footer__credit" data-reveal="up">
+      Diseñado por <a href="https://www.frnq.studio" target="_blank" rel="noopener noreferrer">FRN.Q Studio</a>
+    </p>
+  </footer>
 </Layout>
