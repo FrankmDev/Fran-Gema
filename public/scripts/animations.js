@@ -9,11 +9,15 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function fallbackReveal() {
-    document.querySelectorAll('[data-reveal], .text-reveal__inner, .gold-line, .dia__event-img').forEach(el => {
+    document.querySelectorAll('[data-reveal], .text-reveal__inner, .gold-line, .dia__event-img, .dia__event-media').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
       el.style.clipPath = 'none';
     });
+    document.querySelectorAll('.dia__timeline').forEach(el => el.classList.add('is-drawn'));
+    document.querySelectorAll('.dia__event-media').forEach(el => el.classList.add('is-revealed'));
+    document.querySelectorAll('.footer__names').forEach(el => el.classList.add('is-revealed'));
+    document.querySelectorAll('.confirma__parchment').forEach(el => el.classList.add('is-revealed'));
   }
 
   function whenGsapReady(cb, timeoutMs) {
@@ -35,12 +39,34 @@
       initLineDraws();
       initParallax();
       initImageReveals();
+      initTimelineLineDraw();
+      initImageMaskReveals();
+      initTimelineEvents();
+      initStaggeredReveals();
+      initIconReveals();
+      initFooterReveal();
+      initConfirmaCard();
       initNavigation();
       initFloatingDecor();
+      initSmoothScroll();
+      initMagneticButtons();
     }
   }, 6000);
 
-  // ─── HERO REVEAL — starts after CSS preloader exits (~2.6s) ───
+  // ─── SMOOTH SCROLL ───
+  function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          gsap.to(window, { duration: 1.2, scrollTo: { y: target, offsetY: 60 }, ease: 'expo.inOut' });
+        }
+      });
+    });
+  }
+
+  // ─── HERO REVEAL ───
   function initHeroReveal() {
     const heroPretitle = document.querySelector('.hero__pretitle');
     const heroNames = document.querySelector('.hero__names .text-reveal__inner');
@@ -48,7 +74,7 @@
     const heroLoc = document.querySelector('.hero__location');
     const heroLine = document.querySelector('.hero__line');
 
-    const tl = gsap.timeline({ delay: 2.7 });
+    const tl = gsap.timeline({ delay: 2.6 });
 
     if (heroPretitle) {
       gsap.set(heroPretitle, { opacity: 0, y: 25 });
@@ -123,12 +149,152 @@
     });
   }
 
+  // ─── TIMELINE SPINE LINE DRAW ───
+  function initTimelineLineDraw() {
+    const timeline = document.querySelector('.dia__timeline');
+    if (!timeline) return;
+    ScrollTrigger.create({
+      trigger: timeline,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => timeline.classList.add('is-drawn')
+    });
+  }
+
+  // ─── TIMELINE EVENTS — slide in from sides ───
+  function initTimelineEvents() {
+    document.querySelectorAll('[data-timeline-event]').forEach(event => {
+      const side = event.dataset.timelineEvent;
+      const xOffset = side === 'left' ? -80 : 80;
+      gsap.fromTo(event,
+        { opacity: 0, x: xOffset },
+        {
+          opacity: 1, x: 0, duration: 1.2, ease: 'expo.out',
+          scrollTrigger: { trigger: event, start: 'top 80%', toggleActions: 'play none none none', once: true }
+        }
+      );
+    });
+  }
+
+  // ─── IMAGE MASK REVEALS ───
+  function initImageMaskReveals() {
+    document.querySelectorAll('[data-mask-reveal]').forEach(container => {
+      gsap.fromTo(container,
+        { clipPath: 'polygon(0 100%, 0 100%, 0 100%)' },
+        {
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          duration: 1.6,
+          ease: 'expo.inOut',
+          scrollTrigger: { trigger: container, start: 'top 80%', toggleActions: 'play none none none', once: true }
+        }
+      );
+    });
+  }
+
+  // ─── STAGGERED REVEALS ───
+  function initStaggeredReveals() {
+    document.querySelectorAll('[data-stagger]').forEach(container => {
+      const children = container.children;
+      gsap.fromTo(children,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.9, ease: 'expo.out', stagger: 0.12,
+          scrollTrigger: { trigger: container, start: 'top 85%', toggleActions: 'play none none none', once: true }
+        }
+      );
+    });
+
+    const grid = document.querySelector('[data-stagger-grid]');
+    if (grid) {
+      const items = grid.querySelectorAll(':scope > [data-reveal]');
+      gsap.fromTo(items,
+        { opacity: 0, y: 60, rotateX: 8 },
+        {
+          opacity: 1, y: 0, rotateX: 0, duration: 1.1, ease: 'expo.out', stagger: 0.15,
+          scrollTrigger: { trigger: grid, start: 'top 85%', toggleActions: 'play none none none', once: true }
+        }
+      );
+    }
+  }
+
+  // ─── ICON REVEALS ───
+  function initIconReveals() {
+    document.querySelectorAll('[data-icon-reveal]').forEach((icon, i) => {
+      gsap.fromTo(icon,
+        { scale: 0, rotate: -20, opacity: 0 },
+        {
+          scale: 1, rotate: 0, opacity: 1, duration: 0.8,
+          ease: 'back.out(1.7)',
+          delay: i * 0.15,
+          scrollTrigger: { trigger: icon, start: 'top 88%', toggleActions: 'play none none none', once: true }
+        }
+      );
+    });
+  }
+
+  // ─── FOOTER REVEAL ───
+  function initFooterReveal() {
+    const names = document.querySelector('.footer__names');
+    if (names) {
+      ScrollTrigger.create({
+        trigger: names,
+        start: 'top 92%',
+        once: true,
+        onEnter: () => names.classList.add('is-revealed')
+      });
+    }
+  }
+
+  // ─── CONFIRMA PARCHMENT REVEAL ───
+  function initConfirmaCard() {
+    const parchment = document.querySelector('.confirma__parchment');
+    if (!parchment) return;
+    gsap.fromTo(parchment,
+      { opacity: 0, y: 100, rotateX: 15 },
+      {
+        opacity: 1, y: 0, rotateX: 0, duration: 1.6, ease: 'expo.out',
+        scrollTrigger: { trigger: parchment, start: 'top 85%', toggleActions: 'play none none none', once: true },
+        onComplete: () => parchment.classList.add('is-revealed')
+      }
+    );
+  }
+
+  // ─── MAGNETIC BUTTONS ───
+  function initMagneticButtons() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.btn-gold--luxury').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.15, y: y * 0.15, duration: 0.4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+      });
+    });
+  }
+
   function initParallax() {
     const heroBg = document.querySelector('[data-parallax]');
     if (heroBg) {
       gsap.to(heroBg, {
         y: 80, ease: 'none',
         scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+    }
+    const welcomeMono = document.querySelector('.welcome__bg-monogram');
+    if (welcomeMono) {
+      gsap.to(welcomeMono, {
+        y: -60, ease: 'none',
+        scrollTrigger: { trigger: '#bienvenida', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    }
+    const detallesMono = document.querySelector('.detalles__bg-monogram');
+    if (detallesMono) {
+      gsap.to(detallesMono, {
+        y: -40, ease: 'none',
+        scrollTrigger: { trigger: '#detalles', start: 'top bottom', end: 'bottom top', scrub: true }
       });
     }
   }
@@ -139,9 +305,9 @@
       { selector: '.float-decor--circle-2', y: 80, rotate: -10 },
       { selector: '.float-decor--line-1', y: -60, rotate: 0 },
       { selector: '.float-decor--line-2', y: 100, rotate: 0 },
-      { selector: '.float-decor--ring-1', y: -40, rotate: 45 }
+      { selector: '.float-decor--ring-1', y: -40, rotate: 45 },
+      { selector: '.float-decor--ring-2', y: 60, rotate: -20 }
     ];
-
     elements.forEach(({ selector, y, rotate }) => {
       const el = document.querySelector(selector);
       if (!el) return;

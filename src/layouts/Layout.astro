@@ -4,49 +4,109 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
-  title = "Fran & Gema — 19 de septiembre de 2026",
-  description = "Nos complace invitarte a celebrar nuestra boda en Córdoba."
+  title = "Fran & Gemma — Boda 19 de septiembre de 2026 en Córdoba",
+  description = "Nos complace invitarte a celebrar nuestra boda en Córdoba. Descubre todos los detalles del gran día: ceremonia, convite y confirma tu asistencia.",
+  image = "/og-image.jpg"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://fran-y-gema.vercel.app");
+const ogImageURL = new URL(image, Astro.site || "https://fran-y-gema.vercel.app");
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="FRN.Q Studio" />
+    <meta name="keywords" content="boda Fran y Gemma, boda Córdoba 2026, invitación boda, ceremonia Nuestra Señora de Gracia, Crisol Jardines" />
+    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0A0A0A" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
 
+    <!-- Preconnect & Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" as="style" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" />
 
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Fran & Gemma" />
+
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImageURL} />
+
+    <!-- Schema.org WeddingEvent Structured Data -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "WeddingEvent",
+      "name": "Boda de Fran y Gemma",
+      "startDate": "2026-09-19T12:00:00+02:00",
+      "endDate": "2026-09-19T23:00:00+02:00",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": [
+        {
+          "@type": "Place",
+          "name": "Iglesia de Nuestra Señora de Gracia",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Plaza del Cristo de Gracia",
+            "addressLocality": "Córdoba",
+            "addressRegion": "Andalucía",
+            "addressCountry": "ES"
+          }
+        },
+        {
+          "@type": "Place",
+          "name": "Crisol Jardines de Córdoba",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Paseo de la Victoria, s/n",
+            "addressLocality": "Córdoba",
+            "addressRegion": "Andalucía",
+            "addressCountry": "ES"
+          }
+        }
+      ],
+      "description": "Ceremonia religiosa a las 12:00h y convite a las 14:30h. Te esperamos en Córdoba.",
+      "organizer": {
+        "@type": "Person",
+        "name": "Fran y Gemma"
+      }
+    }
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
 
     <slot name="head" />
   </head>
@@ -65,21 +125,120 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://fran-y-g
     <!-- Monogram Watermark -->
     <div class="monogram-watermark" aria-hidden="true">F&amp;G</div>
 
-    <!-- FAST Cinematic Preloader — CSS only, 2.5s total -->
+    <!-- CINEMATIC PRELOADER — Warm light, orbital rings, calligraphic reveal -->
     <div class="preloader" id="preloader">
-      <div class="preloader__content">
-        <div class="preloader__names">
-          <span class="preloader__char">F</span>
-          <span class="preloader__char preloader__char--gold">&amp;</span>
-          <span class="preloader__char">G</span>
-        </div>
-        <div class="preloader__line"></div>
-        <p class="preloader__date">19 &middot; 09 &middot; 2026</p>
-        <p class="preloader__loc">Córdoba</p>
+      <!-- Animated warm background -->
+      <div class="preloader__bg" aria-hidden="true"></div>
+
+      <!-- Soft vignette -->
+      <div class="preloader__vignette" aria-hidden="true"></div>
+
+      <!-- Orbital wedding rings -->
+      <div class="preloader__orbit preloader__orbit--1" aria-hidden="true">
+        <span class="preloader__orbit-gem"></span>
       </div>
-      <div class="preloader__shutter preloader__shutter--top"></div>
-      <div class="preloader__shutter preloader__shutter--bottom"></div>
+      <div class="preloader__orbit preloader__orbit--2" aria-hidden="true">
+        <span class="preloader__orbit-gem"></span>
+      </div>
+
+      <!-- Decorative rosette behind monogram -->
+      <div class="preloader__rosette" aria-hidden="true"></div>
+
+      <!-- Drawn corner ornaments -->
+      <div class="preloader__corner preloader__corner--tl" aria-hidden="true"></div>
+      <div class="preloader__corner preloader__corner--tr" aria-hidden="true"></div>
+      <div class="preloader__corner preloader__corner--bl" aria-hidden="true"></div>
+      <div class="preloader__corner preloader__corner--br" aria-hidden="true"></div>
+
+      <!-- Floating confetti & petals -->
+      <div class="preloader__particles" aria-hidden="true">
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+        <span class="preloader__particle preloader__particle--dot"></span>
+        <span class="preloader__particle preloader__particle--ring"></span>
+        <span class="preloader__particle preloader__particle--cross"></span>
+      </div>
+
+      <!-- Central content -->
+      <div class="preloader__center">
+        <div class="preloader__monogram">
+          <span class="preloader__letter preloader__letter--f">F</span>
+          <span class="preloader__ampersand">&amp;</span>
+          <span class="preloader__letter preloader__letter--g">G</span>
+        </div>
+
+        <div class="preloader__names">
+          <span class="preloader__name preloader__name--fran">Fran</span>
+          <span class="preloader__name-sep">—</span>
+          <span class="preloader__name preloader__name--gema">Gemma</span>
+        </div>
+
+        <div class="preloader__ornament" aria-hidden="true">
+          <span class="preloader__orn-line"></span>
+          <span class="preloader__orn-gem"></span>
+          <span class="preloader__orn-line"></span>
+        </div>
+
+        <p class="preloader__date">19 de septiembre, 2026</p>
+        <p class="preloader__location">Córdoba</p>
+        <p class="preloader__tagline">Nuestra historia comienza</p>
+      </div>
+
+      <!-- Bottom progress -->
+      <div class="preloader__progress" aria-hidden="true">
+        <div class="preloader__progress-track"></div>
+        <div class="preloader__progress-bar"></div>
+      </div>
+
+      <!-- Cinematic burst — fine golden sparks + rays -->
+      <div class="preloader__burst" aria-hidden="true">
+        <span class="preloader__burst-sparkle" style="--sp-angle: 15deg; --sp-dist: 28px; --sp-delay: 0.82s"></span>
+        <span class="preloader__burst-sparkle" style="--sp-angle: 75deg; --sp-dist: 36px; --sp-delay: 0.88s"></span>
+        <span class="preloader__burst-sparkle" style="--sp-angle: 140deg; --sp-dist: 22px; --sp-delay: 0.92s"></span>
+        <span class="preloader__burst-sparkle" style="--sp-angle: 200deg; --sp-dist: 32px; --sp-delay: 0.86s"></span>
+        <span class="preloader__burst-sparkle" style="--sp-angle: 260deg; --sp-dist: 26px; --sp-delay: 0.94s"></span>
+        <span class="preloader__burst-sparkle" style="--sp-angle: 330deg; --sp-dist: 30px; --sp-delay: 0.90s"></span>
+        <span class="preloader__burst-ray"></span>
+        <span class="preloader__burst-ray"></span>
+        <span class="preloader__burst-ray"></span>
+        <span class="preloader__burst-ray"></span>
+      </div>
+
+      <!-- Final flash -->
+      <div class="preloader__flash" aria-hidden="true"></div>
     </div>
+
+    <script is:inline>
+      (function() {
+        function killPreloader() {
+          var p = document.getElementById('preloader');
+          if (!p || p.dataset.killed) return;
+          p.dataset.killed = '1';
+          p.style.animation = 'none';
+          p.style.opacity = '0';
+          p.style.visibility = 'hidden';
+          p.style.pointerEvents = 'none';
+          void p.offsetWidth;
+          setTimeout(function() { p.style.display = 'none'; }, 60);
+        }
+        setTimeout(killPreloader, 2600);
+        window.addEventListener('load', function() { setTimeout(killPreloader, 2800); });
+        setTimeout(killPreloader, 6000);
+      })();
+    </script>
 
     <!-- Floating Decorative Elements -->
     <div class="float-decor float-decor--circle-1" data-float aria-hidden="true"></div>
