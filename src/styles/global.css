@@ -1065,6 +1065,11 @@ body {
   letter-spacing: 0.25em; text-transform: uppercase;
   font-weight: 500; color: var(--color-gold);
 }
+.dia__event-time--text {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 400;
+  line-height: 1.1; color: var(--color-gold); letter-spacing: 0.02em;
+}
 
 /* Category badge — refined pill */
 .dia__event-category {
@@ -1170,6 +1175,7 @@ body {
   width: 100%;
   height: 100%;
   min-height: 320px;
+  background: #E8DDD0;
 }
 
 .dia__event-media-frame {
@@ -1289,156 +1295,134 @@ body {
 .detalles__item:hover .detalles__item-corner { width: 20px; height: 20px; opacity: 0.35; }
 
 /* ═══════════════════════════════════════════
-   CONFIRMA — Luxury Parchment Invitation
+   CONFIRMA — Royal Invitation Card
    ═══════════════════════════════════════════ */
 .confirma { background: var(--color-black); color: var(--color-off-white); position: relative; overflow: hidden; }
-.confirma__inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 2; }
+.confirma__inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 2; }
 
 /* Parchment card */
 .confirma__parchment {
   position: relative; overflow: hidden;
   background: linear-gradient(160deg, #FFFDF8 0%, #FAF6EE 30%, #F5F0E6 60%, #FAF6EE 100%);
   color: var(--color-black);
-  padding: clamp(3.5rem, 8vw, 6rem) clamp(2rem, 5vw, 4.5rem);
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 5vw, 4rem);
+  border: 1px solid rgba(201,169,110,0.12);
   box-shadow:
-    0 60px 140px rgba(0,0,0,0.5),
-    0 25px 60px rgba(0,0,0,0.35),
-    inset 0 0 80px rgba(201,169,110,0.08),
-    inset 0 0 0 1px rgba(201,169,110,0.15);
+    0 4px 6px rgba(0,0,0,0.05),
+    0 20px 40px rgba(0,0,0,0.15),
+    0 60px 120px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
   transition: transform 0.7s var(--ease-out-expo), box-shadow 0.7s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
+.confirma__parchment::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, transparent 5%, var(--color-gold) 30%, var(--color-gold-light) 50%, var(--color-gold) 70%, transparent 95%);
+  opacity: 0.4; z-index: 4;
+  transition: opacity 0.6s ease;
+}
+.confirma__parchment:hover::before { opacity: 0.7; }
 .confirma__parchment:hover {
-  transform: translateY(-8px);
+  transform: translateY(-12px);
   box-shadow:
-    0 70px 160px rgba(0,0,0,0.6),
-    0 30px 70px rgba(0,0,0,0.4),
-    inset 0 0 80px rgba(201,169,110,0.1),
-    inset 0 0 0 1px rgba(201,169,110,0.2);
+    0 8px 12px rgba(0,0,0,0.06),
+    0 30px 60px rgba(0,0,0,0.2),
+    0 80px 160px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.6);
 }
 
-/* Animated ornamental border SVG */
-.confirma__border-svg {
-  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;
-}
-.confirma__border-rect {
-  stroke-dasharray: 1600;
-  stroke-dashoffset: 1600;
-  transition: stroke-dashoffset 2s ease-out;
-}
-.confirma__parchment.is-revealed .confirma__border-rect {
-  stroke-dashoffset: 0;
+/* Paper texture overlay */
+.confirma__paper-texture {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 
-/* Corner flourishes */
-.confirma__flourish {
-  position: absolute; width: 40px; height: 40px; pointer-events: none; z-index: 2;
-  border-color: var(--color-gold); border-style: solid; opacity: 0;
+/* Ornamental corner flourishes */
+.confirma__ornament {
+  position: absolute; width: 48px; height: 48px; pointer-events: none; z-index: 2;
+  color: var(--color-gold); opacity: 0;
   transition: opacity 0.8s ease, transform 0.8s var(--ease-out-expo);
 }
-.confirma__flourish--tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; transform: translate(-8px,-8px); }
-.confirma__flourish--tr { top: 24px; right: 24px; border-width: 1px 1px 0 0; transform: translate(8px,-8px); }
-.confirma__flourish--bl { bottom: 24px; left: 24px; border-width: 0 0 1px 1px; transform: translate(-8px,8px); }
-.confirma__flourish--br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; transform: translate(8px,8px); }
-.confirma__parchment.is-revealed .confirma__flourish {
-  opacity: 0.45; transform: translate(0,0);
-}
-.confirma__parchment.is-revealed .confirma__flourish--tl { transition-delay: 0.3s; }
-.confirma__parchment.is-revealed .confirma__flourish--tr { transition-delay: 0.4s; }
-.confirma__parchment.is-revealed .confirma__flourish--bl { transition-delay: 0.5s; }
-.confirma__parchment.is-revealed .confirma__flourish--br { transition-delay: 0.6s; }
+.confirma__ornament svg { width: 100%; height: 100%; }
+.confirma__ornament--tl { top: 18px; left: 18px; transform: translate(-6px,-6px); }
+.confirma__ornament--tr { top: 18px; right: 18px; transform: translate(6px,-6px); }
+.confirma__ornament--bl { bottom: 18px; left: 18px; transform: translate(-6px,6px); }
+.confirma__ornament--br { bottom: 18px; right: 18px; transform: translate(6px,6px); }
+.confirma__parchment.is-revealed .confirma__ornament { opacity: 0.25; transform: translate(0,0); }
+.confirma__parchment.is-revealed .confirma__ornament--tl { transition-delay: 0.3s; }
+.confirma__parchment.is-revealed .confirma__ornament--tr { transition-delay: 0.4s; }
+.confirma__parchment.is-revealed .confirma__ornament--bl { transition-delay: 0.5s; }
+.confirma__parchment.is-revealed .confirma__ornament--br { transition-delay: 0.6s; }
+.confirma__parchment:hover .confirma__ornament { opacity: 0.5; }
 
-/* Inner ornamental frame */
-.confirma__inner-frame {
-  position: absolute; inset: 12px;
-  border: 1px solid rgba(201,169,110,0.12);
+/* Double inner ornamental frame */
+.confirma__frame {
+  position: absolute; inset: 16px;
+  border: 1px solid rgba(201,169,110,0.07);
   pointer-events: none; z-index: 1;
+  transition: border-color 0.6s ease;
 }
+.confirma__frame--inner {
+  position: absolute; inset: 24px;
+  border: 1px solid rgba(201,169,110,0.04);
+  pointer-events: none; z-index: 1;
+  transition: border-color 0.6s ease;
+}
+.confirma__parchment:hover .confirma__frame { border-color: rgba(201,169,110,0.18); }
+.confirma__parchment:hover .confirma__frame--inner { border-color: rgba(201,169,110,0.1); }
 
-/* Decorative rings */
-.confirma__deco-ring {
-  position: absolute; top: -30px; right: -30px; width: 120px; height: 120px;
-  border-radius: 50%; border: 1px solid rgba(201,169,110,0.12); pointer-events: none;
-  animation: decoRotate 30s linear infinite;
-}
-.confirma__deco-ring--2 {
-  position: absolute; bottom: -20px; left: -20px; width: 80px; height: 80px;
-  border-radius: 50%; border: 1px solid rgba(201,169,110,0.08); pointer-events: none;
-  animation: decoRotate 25s linear infinite reverse;
-}
-@keyframes decoRotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Top-right monogram seal */
+/* Wax seal monogram */
 .confirma__seal {
-  position: absolute; top: clamp(1.5rem, 4vw, 2.5rem); right: clamp(1.5rem, 4vw, 2.5rem);
-  width: 64px; height: 64px;
+  position: absolute; top: clamp(1.2rem, 3vw, 2rem); right: clamp(1.2rem, 3vw, 2rem);
+  width: 60px; height: 60px;
   display: flex; align-items: center; justify-content: center;
-  z-index: 2;
+  z-index: 3; transform: rotate(-8deg);
+  transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s ease;
 }
-.confirma__seal-ring {
+.confirma__seal-wax {
   position: absolute; inset: 0; border-radius: 50%;
-  border: 1.5px solid rgba(201,169,110,0.35);
-  animation: sealPulse 3s ease-in-out infinite;
+  background: linear-gradient(135deg, #FAF6EE, #F0E8D8);
+  border: 3px solid var(--color-gold);
+  box-shadow:
+    0 2px 8px rgba(201,169,110,0.25),
+    inset 0 1px 2px rgba(255,255,255,0.8);
 }
-.confirma__seal-inner {
+.confirma__seal-text {
+  position: relative; z-index: 2;
   font-family: var(--font-display); font-style: italic; font-weight: 400;
-  font-size: 1.1rem; color: var(--color-gold); letter-spacing: 0.05em;
+  font-size: 1rem; color: var(--color-gold); letter-spacing: 0.02em;
 }
-@keyframes sealPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.08); opacity: 0.7; }
+.confirma__parchment:hover .confirma__seal {
+  transform: rotate(0deg) scale(1.08);
+}
+@media (max-width: 480px) {
+  .confirma__seal { width: 48px; height: 48px; top: 1rem; right: 1rem; }
+  .confirma__seal-text { font-size: 0.8rem; }
 }
 
 /* Card shine sweep */
-.confirma__card-shine {
+.confirma__shine {
   position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
   background: linear-gradient(105deg, transparent 30%, rgba(255,250,240,0.35) 50%, transparent 70%);
   transform: skewX(-20deg);
   pointer-events: none; z-index: 3;
   transition: left 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.confirma__parchment:hover .confirma__card-shine {
-  left: 140%;
-}
+.confirma__parchment:hover .confirma__shine { left: 140%; }
 
-/* Gold accent line */
-.confirma__accent-line {
-  position: absolute; top: 0; left: 0; width: 0; height: 3px;
-  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light), transparent);
-  transition: width 1.2s var(--ease-out-expo);
-}
-.confirma__parchment.is-revealed .confirma__accent-line {
-  width: 60%;
-}
-
-/* ─── Editorial content layout (left-aligned, NOT centered) ─── */
+/* Editorial content */
 .confirma__editorial {
   position: relative; z-index: 2;
   text-align: left;
-  padding-right: 80px;
+  padding-right: 70px;
 }
-@media (max-width: 480px) {
-  .confirma__editorial { padding-right: 0; }
-  .confirma__seal { top: 1rem; right: 1rem; width: 48px; height: 48px; }
-  .confirma__seal-inner { font-size: 0.85rem; }
-}
+@media (max-width: 480px) { .confirma__editorial { padding-right: 0; } }
 
-/* Elegant top ornament */
-.confirma__editorial::before {
-  content: '';
-  display: block;
-  width: 1px; height: 40px;
-  background: linear-gradient(to bottom, var(--color-gold), transparent);
-  opacity: 0.4;
-  margin-bottom: 1.5rem;
-}
-
-.confirma__label { font-family: var(--font-body); font-size: 0.6875rem; letter-spacing: 0.4em; text-transform: uppercase; font-weight: 500; color: var(--color-gold); margin-bottom: 1rem; }
-.confirma__title { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.05; margin-bottom: 1.5rem; }
+.confirma__label { font-family: var(--font-body); font-size: 0.6875rem; letter-spacing: 0.5em; text-transform: uppercase; font-weight: 500; color: var(--color-gold); margin-bottom: 1rem; }
+.confirma__title { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.05; margin-bottom: 1.5rem; text-shadow: 0 2px 20px rgba(201,169,110,0.08); }
 
 .confirma__divider-gold {
   display: block; width: 60px; height: 1px;
@@ -1446,149 +1430,225 @@ body {
   margin: 0 0 1.5rem 0; opacity: 0.6;
 }
 
-.confirma__body { font-family: var(--font-body); font-size: clamp(0.9375rem, 1.2vw, 1rem); line-height: 1.7; color: var(--color-gray); margin-bottom: 2.5rem; max-width: 420px; }
+.confirma__body { font-family: var(--font-body); font-size: clamp(0.9375rem, 1.2vw, 1rem); line-height: 1.7; color: var(--color-gray); margin-bottom: 1.5rem; max-width: 420px; }
 
-/* ─── Details checklist — luxury styled ─── */
+/* Elegant deadline line */
+.confirma__deadline {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+.confirma__deadline-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.25));
+}
+.confirma__deadline-line:last-child {
+  background: linear-gradient(90deg, rgba(201,169,110,0.25), transparent);
+}
+.confirma__deadline-ornament {
+  color: var(--color-gold); opacity: 0.4; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.confirma__deadline-text {
+  font-family: var(--font-body); font-size: 0.6rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  font-weight: 500; color: var(--color-gold); opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* Details with decorative flower bullets */
 .confirma__details {
   display: flex; flex-direction: column; gap: 0;
   margin-bottom: 2.5rem;
-  border-top: 1px solid rgba(201,169,110,0.12);
+  border-top: 1px solid rgba(201,169,110,0.1);
 }
 .confirma__detail {
   display: flex; align-items: flex-start; gap: 1rem;
   text-align: left;
   padding: 1.1rem 0;
-  border-bottom: 1px solid rgba(201,169,110,0.08);
+  border-bottom: 1px solid rgba(201,169,110,0.06);
   transition: background 0.4s ease;
 }
-.confirma__detail:hover {
-  background: rgba(201,169,110,0.03);
-}
-.confirma__detail-icon {
-  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-  border: 1.5px solid rgba(201,169,110,0.35);
+.confirma__detail:hover { background: rgba(201,169,110,0.025); }
+.confirma__detail-flower {
+  flex-shrink: 0; width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--color-gold); margin-top: 2px;
-  background: rgba(201,169,110,0.05);
+  color: var(--color-gold); opacity: 0.5; margin-top: 1px;
   transition: all 0.4s var(--ease-out-expo);
 }
-.confirma__detail:hover .confirma__detail-icon {
-  border-color: var(--color-gold);
-  background: rgba(201,169,110,0.1);
-  transform: scale(1.1);
+.confirma__detail:hover .confirma__detail-flower {
+  opacity: 0.85; transform: scale(1.15) rotate(15deg);
 }
 .confirma__detail-text {
   font-family: var(--font-body);
   font-size: clamp(0.875rem, 1.1vw, 0.95rem);
   line-height: 1.6; color: var(--color-black);
-  padding-top: 3px;
+  padding-top: 1px;
 }
 
-/* ─── Contacts — editorial business card style ─── */
+/* Ornamental divider */
+.confirma__ornament-divider {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+.confirma__ornament-divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.25));
+}
+.confirma__ornament-divider-line:last-child {
+  background: linear-gradient(90deg, rgba(201,169,110,0.25), transparent);
+}
+.confirma__ornament-divider-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-gold); opacity: 0.35;
+  flex-shrink: 0;
+  transition: all 0.5s var(--ease-out-expo);
+}
+.confirma__parchment:hover .confirma__ornament-divider-icon {
+  opacity: 0.6; transform: scale(1.2);
+}
+
+/* Contact cards — individual business cards */
 .confirma__contacts {
   display: flex; flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   margin-bottom: 2.5rem;
   align-items: stretch;
-  padding: 1.5rem;
-  background: linear-gradient(160deg, rgba(201,169,110,0.04) 0%, rgba(201,169,110,0.02) 100%);
-  border: 1px solid rgba(201,169,110,0.1);
-  border-radius: 2px;
 }
 @media (min-width: 768px) {
   .confirma__contacts {
     flex-direction: row;
     align-items: stretch;
     gap: 0;
-    padding: 0;
-    background: none;
-    border: none;
   }
 }
-.confirma__contact {
+.confirma__contact-card {
   text-align: left;
   position: relative;
-  padding: 0.5rem 0;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(160deg, rgba(201,169,110,0.05) 0%, rgba(201,169,110,0.02) 100%);
+  border: 1px solid rgba(201,169,110,0.12);
+  border-radius: 2px;
+  transition: all 0.5s var(--ease-out-expo);
+  flex: 1;
 }
-@media (min-width: 768px) {
-  .confirma__contact {
-    flex: 1;
-    padding: 1.5rem 2rem;
-    background: linear-gradient(160deg, rgba(201,169,110,0.04) 0%, rgba(201,169,110,0.02) 100%);
-    border: 1px solid rgba(201,169,110,0.1);
-    transition: all 0.5s var(--ease-out-expo);
-  }
-  .confirma__contact:first-child {
-    border-right: none;
-  }
-  .confirma__contact:hover {
-    background: rgba(201,169,110,0.07);
-    border-color: rgba(201,169,110,0.2);
-    transform: translateY(-2px);
-  }
+.confirma__contact-card:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.22);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(201,169,110,0.1);
+}
+.confirma__contact-label {
+  font-family: var(--font-body); font-size: 0.55rem;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--color-gray); margin-bottom: 0.5rem;
 }
 .confirma__contact-name {
-  font-family: var(--font-body); font-size: 0.6rem;
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--color-gray); margin-bottom: 0.35rem;
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--color-black); letter-spacing: 0.02em;
+  margin-bottom: 0.35rem;
+  line-height: 1.1;
 }
 .confirma__contact-phone {
-  font-family: var(--font-display); font-style: italic;
-  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-  color: var(--color-black); letter-spacing: 0.02em;
-  transition: color 0.3s ease, transform 0.3s var(--ease-out-expo);
+  font-family: var(--font-body);
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  color: var(--color-gray); letter-spacing: 0.05em;
+  transition: color 0.3s ease;
   cursor: pointer;
 }
-.confirma__contact:hover .confirma__contact-phone {
+.confirma__contact-card:hover .confirma__contact-phone {
   color: var(--color-gold);
-  transform: translateY(-2px);
 }
-.confirma__contact-sep {
+.confirma__contact-connector {
   font-family: var(--font-display); font-style: italic;
-  font-size: 1.25rem; color: var(--color-gold); opacity: 0.5;
-  text-align: center;
-  padding: 0.5rem 0;
+  font-size: 1.1rem; color: var(--color-gold); opacity: 0.4;
+  text-align: center; padding: 0.25rem 0;
 }
 @media (min-width: 768px) {
-  .confirma__contact-sep {
+  .confirma__contact-connector {
     display: flex; align-items: center; justify-content: center;
-    width: 1px; padding: 0;
-    background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.2), transparent);
-    opacity: 1;
+    width: 50px; padding: 0;
   }
 }
 
-/* Section divider between checklist and contacts */
-.confirma__section-divider {
-  display: flex; align-items: center; gap: 1rem;
-  margin-bottom: 2.5rem;
-  opacity: 0.4;
-}
-.confirma__section-divider span:first-child,
-.confirma__section-divider span:last-child {
-  flex: 1; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.3));
-}
-.confirma__section-divider span:last-child {
-  background: linear-gradient(90deg, rgba(201,169,110,0.3), transparent);
-}
-.confirma__section-divider-diamond {
-  display: block; width: 6px; height: 6px;
-  background: var(--color-gold);
-  transform: rotate(45deg);
-  flex-shrink: 0;
-  opacity: 0.5;
-}
-
-/* ─── Actions ─── */
+/* Metallic gold action buttons */
 .confirma__actions {
   display: flex; flex-direction: column;
   gap: 0.85rem; align-items: stretch;
+  margin-bottom: 2.5rem;
 }
 @media (min-width: 768px) {
   .confirma__actions {
     flex-direction: row;
     gap: 1rem; align-items: center;
+  }
+}
+.confirma__btn-gold {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.75rem; padding: 1.15rem 2.5rem;
+  background: linear-gradient(135deg, #D4B87A, #C9A96E, #B8956A);
+  color: #121821;
+  font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
+  border-radius: 100px; border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.4s var(--ease-out-expo);
+  box-shadow:
+    0 4px 6px rgba(0,0,0,0.05),
+    0 10px 25px rgba(201,169,110,0.25),
+    inset 0 1px 1px rgba(255,255,255,0.3);
+  flex: 1;
+  text-align: center;
+}
+.confirma__btn-gold:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 12px rgba(0,0,0,0.08),
+    0 18px 45px rgba(201,169,110,0.35),
+    inset 0 1px 1px rgba(255,255,255,0.4);
+  letter-spacing: 0.18em;
+}
+.confirma__btn-shine {
+  position: absolute; top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,250,240,0.5) 50%, transparent 70%);
+  transform: skewX(-20deg);
+  transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.confirma__btn-gold:hover .confirma__btn-shine { left: 150%; }
+.confirma__btn-text { position: relative; z-index: 2; }
+
+/* Closing sentiment */
+.confirma__closing {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.5;
+}
+.confirma__closing-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.3), transparent);
+}
+.confirma__closing-text {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+  color: var(--color-gray);
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 480px) {
+  .confirma__closing {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .confirma__closing-line {
+    width: 40px;
+    flex: none;
+  }
+  .confirma__closing-text {
+    white-space: normal;
   }
 }
 
@@ -1614,7 +1674,7 @@ body {
 .confirma__particles span:nth-child(7) { top: 70%; left: 35%; animation-delay: 0.5s; animation-duration: 11s; }
 .confirma__particles span:nth-child(8) { top: 40%; left: 10%; animation-delay: 3s; animation-duration: 10s; }
 
-/* Luxury buttons */
+/* Luxury buttons (kept for compatibility) */
 .btn-gold--luxury {
   position: relative; overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center;

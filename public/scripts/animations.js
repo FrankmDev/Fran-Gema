@@ -138,14 +138,10 @@
   }
 
   function initImageReveals() {
+    // Timeline images load eagerly and should be visible instantly.
+    // Skip opacity-hiding animation so they appear immediately.
     document.querySelectorAll('.dia__event-img').forEach(img => {
-      gsap.fromTo(img,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1, y: 0, duration: 1, ease: 'expo.out',
-          scrollTrigger: { trigger: img, start: 'top 85%', toggleActions: 'play none none none', once: true }
-        }
-      );
+      gsap.set(img, { opacity: 1, y: 0 });
     });
   }
 
@@ -178,16 +174,9 @@
 
   // ─── IMAGE MASK REVEALS ───
   function initImageMaskReveals() {
+    // Keep containers fully visible from the start so images load instantly.
     document.querySelectorAll('[data-mask-reveal]').forEach(container => {
-      gsap.fromTo(container,
-        { clipPath: 'polygon(0 100%, 0 100%, 0 100%)' },
-        {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-          duration: 1.6,
-          ease: 'expo.inOut',
-          scrollTrigger: { trigger: container, start: 'top 80%', toggleActions: 'play none none none', once: true }
-        }
-      );
+      gsap.set(container, { clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' });
     });
   }
 
